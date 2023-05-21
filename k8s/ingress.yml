@@ -13,5 +13,7 @@ spec:
         paths:
           - path: "/"
             backend:
-              serviceName: blue # Specify old-nginx as the backend service.
-              servicePort: 80
+              service:
+                name: blue # Specify old-nginx as the backend service.
+                port:
+                  number: 80
