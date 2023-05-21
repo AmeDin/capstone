@@ -14,24 +14,21 @@ spec:
     spec:
       containers:
         - image: nginxdemos/hello # The image used is nginxdemos/hello.
-          name: container-0
+          name: green
           ports:
             - name: http-server
-              containerPort: 80
+              containerPort: 8080
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: blue
-  labels:
-    app: bluegreenlb
+  name: green
 spec:
   selector:
-    app: blue
+    app: green
+  type: NodePort
   ports:
-    - name: blueservice
+    - protocol: TCP
       targetPort: 80
       port: 8080
-      protocol: TCP
-  type: NodePort
