@@ -62,7 +62,8 @@ Resources:
           sudo apt install docker-ce
           sudo systemctl status docker
           PASSWD="ubuntu"
-          echo -e "$PASSWD" |su - ${USER}
+          echo -e "ubuntu" | su - ${USER}
+          echo -e "ubuntu" | su - ubuntu
           sudo usermod -aG docker ubuntu
           sudo apt install make
           sudo wget -O ./hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 && sudo chmod +x ./hadolint
@@ -74,6 +75,7 @@ Resources:
           kubectl version --client --output=yaml
           docker pull nginxdemos/hello
           kubectl run blue --image=nginxdemos/hello --port=80 --labels app=blue
+          kubectl port-forward blue 8000:80
       ImageId: ami-0fcf52bcf5db7b003
       SecurityGroups:
         - Ref: WebServerSecGroup
