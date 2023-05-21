@@ -2,17 +2,15 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: green
-  labels:
-    app: green
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: blue
+      app: green
   template:
     metadata:
       labels:
-        app: blue
+        app: green
     spec:
       containers:
         - image: nginxdemos/hello # The image used is nginxdemos/hello.
