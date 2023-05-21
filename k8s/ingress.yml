@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: gray-release
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx # Use the Nginx ingress.
+    kubernetes.io/elb.port: "80"
+spec:
+  rules:
+    - host: www.example.com
+      http:
+        paths:
+          - path: "/"
+            backend:
+              serviceName: blue # Specify old-nginx as the backend service.
+              servicePort: 80
