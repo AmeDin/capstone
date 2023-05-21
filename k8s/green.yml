@@ -13,7 +13,7 @@ spec:
         app: green
     spec:
       containers:
-        - image: green # The image used is nginxdemos/hello.
+        - image: amedin/green:v1.0.0 # The image used is nginxdemos/hello.
           name: green
           ports:
             - name: http-server

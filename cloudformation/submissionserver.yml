@@ -74,8 +74,10 @@ Resources:
           sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
           kubectl version --client --output=yaml
           docker pull nginxdemos/hello
-          kubectl run blue --image=nginxdemos/hello --port=80 --labels app=blue
+          kubectl apply -f blue.yml
           kubectl port-forward blue 8000:80
+          minikube tunnel
+          docker build --tag=green .
       ImageId: ami-0fcf52bcf5db7b003
       SecurityGroups:
         - Ref: WebServerSecGroup
