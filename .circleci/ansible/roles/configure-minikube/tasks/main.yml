@@ -1,12 +1,26 @@
 ---
 - name: install kubectl repository
-  get_url:
-    url: https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl
-    dest: /root/kubectl
-- name: Installing kubectl
-  apt:
-    name: /root/kubectl
-    state: present
+  uri:
+    url: https://dl.k8s.io/release/stable.txt
+    return_content: yes
+  register: version
+- name: Download the latest kubectl release
+  uri:
+    url: https://dl.k8s.io/release/{{ version.content }}/bin/linux/arm/kubectl
+    dest: /home/{{ ansible_user }}
+  register: kubectl
+- name: Move kubectl and change permissions
+  file:
+    src: "{{ kubectl.path }}"
+    dest: /usr/local/bin/kubectl
+    state: hard
+    owner: root
+    group: root
+    mode: "+x"
+- name: Check if kubectl is installed
+  shell: kubectl version --client
+  register: client
+  failed_when: client.rc > 1
 - name: Installing Docker
   apt:
     name: docker
