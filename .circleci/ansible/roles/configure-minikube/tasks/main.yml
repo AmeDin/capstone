@@ -1,23 +1,23 @@
 ---
 - name: Installing kubectl
-    apt:
-      name: kubectl
-      state: present
+  apt:
+    name: kubectl
+    state: present
 - name: Installing Docker
-    apt:
-     name: docker
-     state: present
+  apt:
+    name: docker
+    state: present
 - name: Installing conntrack
-    apt:
-      name: conntrack
-      state: present
+  apt:
+    name: conntrack
+    state: present
 - name: Downloading minikube
-    get_url:
-      url: https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm
-      dest: /root/minikube-latest.x86_64.rpm
+  get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm
+    dest: /root/minikube-latest.x86_64.rpm
 - name: Installing minkube
-    apt:
-      name: /root/minikube-latest.x86_64.rpm
-      state: present
+  apt:
+    name: /root/minikube-latest.x86_64.rpm
+    state: present
 - name: Starting Minikube driver using none
     command: minkube start --driver=none
