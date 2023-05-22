@@ -96,7 +96,7 @@ jobs:
             EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
 
             ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-              curl -LO https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl
+              sudo wget -O ./kubectl https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl && sudo chmod +x ./kubectl
 
       - run:
           name: install k8s
@@ -109,10 +109,8 @@ jobs:
               ls
               cd ~
               ls
-              sudo install -o root -g root -m 0755 kubectl ./bin/kubectl
-            #   mkdir -p ~/.local/bin
-            #   mv ./kubectl ~/.local/bin/kubectl
-            #   kubectl version --client --output=yaml
+              sudo install -o root -g root -m 0755 kubectl $EC2_USERNAME@$EC2_PUBLIC_DNS:/usr/local/bin/kubectl
+              $EC2_USERNAME@$EC2_PUBLIC_DNS:/usr/local/bin/kubectl version --client --output=yaml
       # Here's where you will add some code to rollback on failure
       # - destroy-environment
 workflows:
