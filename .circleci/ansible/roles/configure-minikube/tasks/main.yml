@@ -21,13 +21,15 @@
   apt:
     name: conntrack
     state: present
-- name: Downloading minikube
-  get_url:
+
+- name: Download the latest kubectl release
+  uri:
     url: https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm
-    dest: /root/minikube-latest.x86_64.rpm
+    dest: /home/{{ ansible_user }}
+  register: minikube-latest.x86_64.rpm
 - name: Installing minkube
   apt:
-    name: /root/minikube-latest.x86_64.rpm
+    name: /home/{{ ansible_user }}/minikube-latest.x86_64.rpm
     state: present
 - name: Starting Minikube driver using none
   become: yes
