@@ -28,9 +28,9 @@
     dest: /home/{{ ansible_user }}
   register: minikube-linux-amd64
 - name: Installing minkube
-  apt:
-    name: /home/{{ ansible_user }}/minikube-linux-amd64
-    state: present
+  become: yes
+  shell: |
+    sudo install minikube-linux-amd64 /usr/local/bin/minikube
 - name: Starting Minikube driver using none
   become: yes
   shell: |
