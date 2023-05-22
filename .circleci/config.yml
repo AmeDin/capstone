@@ -75,20 +75,28 @@ jobs:
             EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
 
             ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-              sudo apt-get update -y \
-              yes Y | sudo apt install apt-transport-https ca-certificates curl software-properties-common \
-              curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
-              sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \
+              sudo apt-get update -y 
 
       - run:
-          name: Check k8s
+          name: get pt-transport-https
           command: |
             # Your code here
             EC2_USERNAME=ubuntu
             EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
 
             ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-              kubectl version --client --output=yaml
+              yes Y | sudo apt install apt-transport-https ca-certificates curl software-properties-common 
+
+        - run:
+          name: install k8s
+          command: |
+            # Your code here
+            EC2_USERNAME=ubuntu
+            EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
+
+            ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
+              curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+              sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl 
       # Here's where you will add some code to rollback on failure
       # - destroy-environment
 workflows:
