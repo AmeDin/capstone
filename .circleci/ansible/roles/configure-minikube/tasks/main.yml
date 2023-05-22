@@ -9,14 +9,6 @@
     url: https://dl.k8s.io/release/{{ version.content }}/bin/linux/arm/kubectl
     dest: /home/{{ ansible_user }}
   register: kubectl
-- name: Move kubectl and change permissions
-  file:
-    src: "{{ kubectl.path }}"
-    dest: /usr/local/bin/kubectl
-    state: hard
-    owner: root
-    group: root
-    mode: "+x"
 - name: Check if kubectl is installed
   shell: kubectl version --client
   register: client
