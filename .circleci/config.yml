@@ -44,6 +44,32 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
+  configure-server:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      # Checkout code from git
+      # Add ssh keys with fingerprint
+      # attach workspace
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["1c:2e:97:d3:17:e3:3c:52:9e:99:be:a2:6d:df:60:3b"]
+      - attach_workspace:
+          at: ~/
+
+      - run:
+          name: Clone git
+          command: |
+            # Your code here
+            EC2_USERNAME=ubuntu
+            EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
+
+            ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
+              git clone https://github.com/AmeDin/capstone.git
+              cd capstone
+
+      # Here's where you will add some code to rollback on failure
+      - destroy-environment
 workflows:
   default:
     jobs:
