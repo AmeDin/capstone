@@ -19,6 +19,10 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+      - aws-cli/setup:
+          aws-access-key-id: aws_access_key_id
+          aws-secret-access-key: aws_secret_access_key
+          aws-region: region
       - run:
           name: Add back-end ip to ansible inventory
           command: |
