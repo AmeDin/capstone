@@ -20,4 +20,6 @@
     name: /root/minikube-latest.x86_64.rpm
     state: present
 - name: Starting Minikube driver using none
-    command: minkube start --driver=none
+  become: yes
+  shell: |
+    minkube start --driver=none
