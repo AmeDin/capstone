@@ -33,3 +33,7 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
+workflows:
+  default:
+    jobs:
+      - get-server-ip:
