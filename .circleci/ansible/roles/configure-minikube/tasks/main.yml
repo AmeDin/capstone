@@ -1,14 +1,14 @@
 ---
 - name: Installing kubectl
-    yum:
+    apt:
       name: kubectl
       state: present
 - name: Installing Docker
-    yum:
+    apt:
      name: docker
      state: present
 - name: Installing conntrack
-    yum:
+    apt:
       name: conntrack
       state: present
 - name: Downloading minikube
@@ -16,7 +16,7 @@
       url: https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm
       dest: /root/minikube-latest.x86_64.rpm
 - name: Installing minkube
-    yum:
+    apt:
       name: /root/minikube-latest.x86_64.rpm
       state: present
 - name: Starting Minikube driver using none
