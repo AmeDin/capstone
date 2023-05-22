@@ -13,10 +13,49 @@
   shell: kubectl version --client
   register: client
   failed_when: client.rc > 1
+- name: Install aptitude
+  apt:
+    name: aptitude
+    state: latest
+    update_cache: true
+- name: Install required system packages
+  apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - python3-pip
+      - virtualenv
+      - python3-setuptools
+    state: latest
+    update_cache: true
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu jammy stable
+    state: present
+
+- name: Update apt and install docker-ce
+  apt:
+    name: docker-ce
+    state: latest
+    update_cache: true
+
 - name: Installing Docker
   apt:
     name: docker
     state: present
+
+- name: Starting Docker
+  become: yes
+  shell: |
+    sudo systemctl status docker
+
 - name: Installing conntrack
   apt:
     name: conntrack
@@ -26,7 +65,7 @@
   uri:
     url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
     dest: /home/{{ ansible_user }}
-  register: minikube-linux-amd64
+  register: minikubelinuxamd64
 - name: Installing minkube
   become: yes
   shell: |
@@ -34,4 +73,4 @@
 - name: Starting Minikube driver using none
   become: yes
   shell: |
-    minkube start --driver=none
+    minikube start --driver=docker
