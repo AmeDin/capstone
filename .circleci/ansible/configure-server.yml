@@ -23,11 +23,6 @@
       raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3)
       changed_when: false
 
-  roles:
-    # Your code here
-    - configure-server
-
-- hosts: tag_Name_k8s_minikube
   tasks:
     - name: conf repo for kubectl
       yum_repository:
@@ -38,4 +33,6 @@
         gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
         repo_gpgcheck: yes
   roles:
+    # Your code here
+    - configure-server
     - configure-minikube
