@@ -74,3 +74,4 @@ workflows:
   default:
     jobs:
       - get-server-ip
+      - configure-server
