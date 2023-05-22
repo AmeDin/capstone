@@ -36,4 +36,4 @@ jobs:
 workflows:
   default:
     jobs:
-      - get-server-ip:
+      - get-server-ip
