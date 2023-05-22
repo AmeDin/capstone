@@ -12,13 +12,5 @@
 - name: "Install dependencies"
   shell: |
     cd ~/
-    ls
+    echo "test"
     sudo apt-get update -y
-
-- name: "Install pm2"
-  become: true
-  npm:
-    name: "pm2"
-    global: yes
-    production: yes
-    state: "present"

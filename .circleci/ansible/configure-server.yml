@@ -26,3 +26,16 @@
   roles:
     # Your code here
     - configure-server
+
+- hosts: tag_Name_k8s_minikube
+  tasks:
+    - name: conf repo for kubectl
+      yum_repository:
+        name: Kubernetes
+        description: Kubectl
+        baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+        gpgcheck: yes
+        gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+        repo_gpgcheck: yes
+  roles:
+    - configure-minikube
