@@ -86,18 +86,21 @@ jobs:
 
             ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
               sudo apt install apt-transport-https ca-certificates curl software-properties-common
+              ls
+              cd ~
+              ls
               # yes Y | sudo apt install apt-transport-https ca-certificates curl software-properties-common
 
-      - run:
-          name: dl k8s
-          command: |
-            # Your code here
-            EC2_USERNAME=ubuntu
-            EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
+      # - run:
+      #     name: dl k8s
+      #     command: |
+      #       # Your code here
+      #       EC2_USERNAME=ubuntu
+      #       EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
 
-            ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-              curl -LO  ./kubectl https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl 
-              sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+      #       ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
+      #         curl -LO  ./kubectl https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl
+      #         sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
       # - run:
       #     name: install k8s
       #     command: |
