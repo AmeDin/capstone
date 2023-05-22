@@ -106,6 +106,7 @@ jobs:
             # EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
 
             # ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
+              cd /home/ubuntu
               chmod +x kubectl
             #   mkdir -p ~/.local/bin
             #   mv ./kubectl ~/.local/bin/kubectl
