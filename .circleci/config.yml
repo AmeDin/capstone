@@ -69,7 +69,7 @@ jobs:
               cd capstone
 
       # Here's where you will add some code to rollback on failure
-      - destroy-environment
+      # - destroy-environment
 workflows:
   default:
     jobs:
