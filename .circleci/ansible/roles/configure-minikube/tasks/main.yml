@@ -1,9 +1,9 @@
 ---
 - name: install kubectl repository
-  apt_repository:
-    repo: deb https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl
-    state: present
-  become: true
+  become: yes
+  shell: |
+    curl -LO https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl
+  state: present
 - name: Installing kubectl
   apt:
     name: kubectl
