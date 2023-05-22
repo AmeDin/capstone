@@ -97,8 +97,6 @@ jobs:
 
             ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
               curl -LO https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl
-              chmod +x kubectl
-              mkdir -p ~/.local/bin
 
       - run:
           name: install k8s
@@ -108,7 +106,7 @@ jobs:
             # EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
 
             # ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-            #   chmod +x kubectl
+              chmod +x kubectl
             #   mkdir -p ~/.local/bin
             #   mv ./kubectl ~/.local/bin/kubectl
             #   kubectl version --client --output=yaml
