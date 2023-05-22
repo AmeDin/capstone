@@ -1,0 +1,36 @@
+---
+- name: "Update apt packages"
+  become: true
+  apt:
+    update_cache: yes
+
+- name: "Upgrade apt packages"
+  become: true
+  apt:
+    upgrade: yes
+
+- name: "Remove dependencies that are no longer required"
+  become: true
+  apt:
+    autoremove: yes
+
+- name: "Install dependencies"
+  become: true
+  apt:
+    name: ["nodejs", "npm", "tar"]
+    state: "latest"
+    update_cache: yes
+
+- name: "Install pm2"
+  become: true
+  npm:
+    name: "pm2"
+    global: yes
+    production: yes
+    state: "present"
+
+- name: "move env var to /etc/profile.d"
+  become: true
+  copy:
+    src: myenv.sh
+    dest: /etc/profile.d/
