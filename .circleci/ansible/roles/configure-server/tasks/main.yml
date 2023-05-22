@@ -9,9 +9,9 @@
 #   apt:
 #     upgrade: yes
 
-- name: "Install dependencies"
-  shell: |
-    cd ~/
-    echo "test"
-    sudo apt-get update -y
-    yes Y | sudo apt install apt-transport-https ca-certificates curl software-properties-common
+# - name: "Install dependencies"
+#   shell: |
+#     cd ~/
+#     echo "test"
+#     sudo apt-get update -y
+#     yes Y | sudo apt install apt-transport-https ca-certificates curl software-properties-common
