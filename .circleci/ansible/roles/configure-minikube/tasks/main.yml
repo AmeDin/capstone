@@ -65,4 +65,6 @@
 - name: Starting Minikube driver using none
   become: yes
   shell: |
+    echo -e "ubuntu" | su - ubuntu
+    sudo usermod -aG docker ubuntu
     minikube start --driver=docker
