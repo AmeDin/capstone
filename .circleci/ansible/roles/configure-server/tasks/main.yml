@@ -9,17 +9,11 @@
   apt:
     upgrade: yes
 
-- name: "Remove dependencies that are no longer required"
-  become: true
-  apt:
-    autoremove: yes
-
 - name: "Install dependencies"
-  become: true
-  apt:
-    name: ["nodejs", "npm", "tar"]
-    state: "latest"
-    update_cache: yes
+  shell: |
+    cd ~/
+    ls
+    sudo apt-get update -y
 
 - name: "Install pm2"
   become: true
@@ -28,9 +22,3 @@
     global: yes
     production: yes
     state: "present"
-
-- name: "move env var to /etc/profile.d"
-  become: true
-  copy:
-    src: myenv.sh
-    dest: /etc/profile.d/

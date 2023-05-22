@@ -54,8 +54,15 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: ["1c:2e:97:d3:17:e3:3c:52:9e:99:be:a2:6d:df:60:3b"]
-      # - attach_workspace:
-      #     at: ~/
+      - attach_workspace:
+          at: ~/
+      - install_ansible
+      - run:
+          name: Configure server
+          command: |
+            cd .circleci/ansible
+            cat inventory.txt
+            ansible-playbook -i inventory.txt configure-server.yml
 
       # - run:
       #     name: Clone git
@@ -67,29 +74,29 @@ jobs:
       #       ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
       #         git clone https://github.com/AmeDin/capstone.git
 
-      - run:
-          name: Update apps & Install k8s
-          command: |
-            # Your code here
-            EC2_USERNAME=ubuntu
-            EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
+      # - run:
+      #     name: Update apps & Install k8s
+      #     command: |
+      #       # Your code here
+      #       EC2_USERNAME=ubuntu
+      #       EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
 
-            ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-              sudo apt-get update -y
+      #       ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
+      #         sudo apt-get update -y
 
-      - run:
-          name: get pt-transport-https
-          command: |
-            # Your code here
-            EC2_USERNAME=ubuntu
-            EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
+      # - run:
+      #     name: get pt-transport-https
+      #     command: |
+      #       # Your code here
+      #       EC2_USERNAME=ubuntu
+      #       EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
 
-            ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-              sudo apt install apt-transport-https ca-certificates curl software-properties-common
-              ls
-              cd ~
-              ls
-              # yes Y | sudo apt install apt-transport-https ca-certificates curl software-properties-common
+      #       ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
+      #         sudo apt install apt-transport-https ca-certificates curl software-properties-common
+      #         ls
+      #         cd ~
+      #         ls
+      #         # yes Y | sudo apt install apt-transport-https ca-certificates curl software-properties-common
 
       # - run:
       #     name: dl k8s
