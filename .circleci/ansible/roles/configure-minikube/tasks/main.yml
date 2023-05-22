@@ -1,4 +1,14 @@
 ---
+- name: import the kubectl apt key
+  apt_key:
+    url: https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+    state: present
+  become: true
+- name: install kubectl repository
+  apt_repository:
+    repo: deb https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64 stable main
+    state: present
+  become: true
 - name: Installing kubectl
   apt:
     name: kubectl
