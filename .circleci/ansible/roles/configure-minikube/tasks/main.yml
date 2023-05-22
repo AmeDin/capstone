@@ -39,7 +39,7 @@
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt update
     apt-cache policy docker-ce
-    sudo apt install docker-ce
+    sudo apt install docker-ce -y
 
 - name: Starting Docker
   become: yes
@@ -51,16 +51,18 @@
     name: conntrack
     state: present
 
-- name: Installing minkube
-  uri:
-    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-    dest: /home/{{ ansible_user }}
-  register: minikubelinuxamd64
+# - name: Installing minkube
+#   uri:
+#     url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+#     dest: /home/{{ ansible_user }}
+#   register: minikubelinuxamd64
 - name: Installing minkube
   become: yes
   shell: |
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
     sudo install minikube-linux-amd64 /usr/local/bin/minikube
 - name: Starting Minikube driver using none
   become: yes
   shell: |
+
     minikube start --driver=docker

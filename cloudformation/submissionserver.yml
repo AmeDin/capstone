@@ -64,7 +64,7 @@ Resources:
           git clone https://github.com/AmeDin/capstone.git
           cd capstone
           sudo apt-get update -y
-          yes Y | sudo apt install apt-transport-https ca-certificates curl software-properties-common
+          sudo apt install apt-transport-https ca-certificates curl software-properties-common
           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
           sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
           kubectl version --client --output=yaml
