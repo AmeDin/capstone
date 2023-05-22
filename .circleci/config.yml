@@ -22,6 +22,10 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+      - run:
+          name: Install tar
+          command: |
+            yum install -y tar gzip
       - aws-cli/setup:
           aws-access-key-id: aws_access_key_id
           aws-secret-access-key: aws_secret_access_key
@@ -30,7 +34,7 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --instance-ids i-0d780f2e34b184b26 \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
             echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.txt
