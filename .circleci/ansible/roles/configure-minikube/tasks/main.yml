@@ -1,11 +1,11 @@
 ---
 - name: install kubectl repository
-  become: yes
-  shell: |
-    curl -LO https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl
+  get_url:
+    url: https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl
+    dest: /root/kubectl
 - name: Installing kubectl
   apt:
-    name: kubectl
+    name: /root/kubectl
     state: present
 - name: Installing Docker
   apt:
