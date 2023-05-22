@@ -127,4 +127,5 @@ workflows:
   default:
     jobs:
       - get-server-ip
-      - configure-server
+      - configure-server:
+          requires: [get-server-ip]
