@@ -6,7 +6,7 @@
   register: version
 - name: Download the latest kubectl release
   uri:
-    url: https://dl.k8s.io/release/{{ version.content }}/bin/linux/arm/kubectl
+    url: https://dl.k8s.io/release/{{ version.content }}/bin/linux/amd64/kubectl
     dest: /home/{{ ansible_user }}
   register: kubectl
 - name: Check if kubectl is installed
@@ -25,9 +25,6 @@
       - ca-certificates
       - curl
       - software-properties-common
-      - python3-pip
-      - virtualenv
-      - python3-setuptools
     state: latest
     update_cache: true
 
@@ -66,6 +63,5 @@
   become: yes
   shell: |
     echo -e "ubuntu" | su - ubuntu
-    sudo usermod -aG docker ubuntu
-    minikube delete --all --purge
+    sudo usermod -aG docker ubuntu && newgrp docker
     minikube start --driver=docker --force
