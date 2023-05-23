@@ -68,4 +68,4 @@
     echo -e "ubuntu" | su - ubuntu
     sudo usermod -aG docker ubuntu
     minikube delete --all --purge
-    minikube start --driver=docker
+    minikube start --driver=docker --force

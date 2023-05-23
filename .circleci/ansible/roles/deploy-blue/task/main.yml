@@ -9,4 +9,4 @@
   shell: |
     cd capstone/k8s/
     kubectl apply -f blue.yml
-    nohup kubectl port-forward --address 0.0.0.0 service/blue 30000:8080
+    nohup kubectl port-forward --address 0.0.0.0 service/blue 30000:8081
