@@ -37,14 +37,16 @@ jobs:
           docker_layer_caching: true
 
       # build and push Docker image
-      - run: |
-          TAG=0.1.$CIRCLE_BUILD_NUM
-          docker build --tag=green .
-          dockerpath="amedin/green:v2.0.0"
-          echo "Docker ID and Image: $dockerpath"
-          echo $docker_pass | docker login -u $docker_user --password-stdin
-          docker tag green $dockerpath
-          docker push $dockerpath
+      - run:
+          name: build & push docker
+          command: |
+            TAG=0.1.$CIRCLE_BUILD_NUM
+            docker build --tag=green .
+            dockerpath="amedin/green:v2.0.0"
+            echo "Docker ID and Image: $dockerpath"
+            echo $docker_pass | docker login -u $docker_user --password-stdin
+            docker tag green $dockerpath
+            docker push $dockerpath
 
   get-server-ip:
     docker:
@@ -65,7 +67,7 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
-              --instance-ids i-00787c5927d305a15 \
+              --instance-ids i-024dba14f646d13bc \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
             echo $BACKEND_PUBLIC_IP >> .circleci/ansible/inventory.txt
@@ -95,65 +97,6 @@ jobs:
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
 
-      # - run:
-      #     name: Clone git
-      #     command: |
-      #       # Your code here
-      #       EC2_USERNAME=ubuntu
-      #       EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
-
-      #       ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-      #         git clone https://github.com/AmeDin/capstone.git
-
-      # - run:
-      #     name: Update apps & Install k8s
-      #     command: |
-      #       # Your code here
-      #       EC2_USERNAME=ubuntu
-      #       EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
-
-      #       ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-      #         sudo apt-get update -y
-
-      # - run:
-      #     name: get pt-transport-https
-      #     command: |
-      #       # Your code here
-      #       EC2_USERNAME=ubuntu
-      #       EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
-
-      #       ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-      #         sudo apt install apt-transport-https ca-certificates curl software-properties-common
-      #         ls
-      #         cd ~
-      #         ls
-      #         # yes Y | sudo apt install apt-transport-https ca-certificates curl software-properties-common
-
-      # - run:
-      #     name: dl k8s
-      #     command: |
-      #       # Your code here
-      #       EC2_USERNAME=ubuntu
-      #       EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
-
-      #       ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-      #         curl -LO  ./kubectl https://dl.k8s.io/release/v1.27.1/bin/linux/amd64/kubectl
-      #         sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-      # - run:
-      #     name: install k8s
-      #     command: |
-      #       # Your code here
-      #       # EC2_USERNAME=ubuntu
-      #       # EC2_PUBLIC_DNS=ec2-52-13-34-150.us-west-2.compute.amazonaws.com
-
-      #       # ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_PUBLIC_DNS \
-      #         ls
-      #         cd ~
-      #         ls
-      #         sudo install -o root -g root -m 0755 kubectl $EC2_USERNAME@$EC2_PUBLIC_DNS:/usr/local/bin/kubectl
-      #         $EC2_USERNAME@$EC2_PUBLIC_DNS:/usr/local/bin/kubectl version --client --output=yaml
-      # Here's where you will add some code to rollback on failure
-      # - destroy-environment
 workflows:
   default:
     jobs:
