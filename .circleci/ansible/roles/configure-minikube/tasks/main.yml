@@ -62,9 +62,10 @@
     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
     sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
-- name: Starting Minikube driver using none
+- name: Cleaning up Minikube driver using none
   become: yes
   shell: |
     echo -e "ubuntu" | su - ubuntu
     sudo usermod -aG docker ubuntu
-    minikube start --driver=docker --force
+    minikube delete --all --purge
+    minikube start --driver=docker

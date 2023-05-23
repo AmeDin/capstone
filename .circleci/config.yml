@@ -15,6 +15,38 @@ commands:
             sudo add-apt-repository --yes --update ppa:ansible/ansible
             sudo apt install ansible -y
 jobs:
+  build:
+    docker:
+      - image: cimg/base:2022.06
+        auth:
+          username: $docker_user
+          password: $docker_pass # context / project UI env-var reference
+    steps:
+      - checkout
+      # ... steps for building/testing app ...
+      - run:
+          name: install dependencies & run lint
+          command: |
+            make install
+            # Install hadolint
+            wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
+            chmod +x /bin/hadolint
+            make lint
+
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
+
+      # build and push Docker image
+      - run: |
+          TAG=0.1.$CIRCLE_BUILD_NUM
+          docker build --tag=green .
+          dockerpath="amedin/green:v2.0.0"
+          echo "Docker ID and Image: $dockerpath"
+          echo $docker_pass | docker login -u $docker_user --password-stdin
+          docker tag green $dockerpath
+          docker push $dockerpath
+
   get-server-ip:
     docker:
       # Docker image here that supports AWS CLI
@@ -126,6 +158,8 @@ jobs:
 workflows:
   default:
     jobs:
-      - get-server-ip
-      - configure-server:
-          requires: [get-server-ip]
+      - build
+      # - get-server-ip:
+      #     requires: [build]
+      # - configure-server:
+      #     requires: [get-server-ip]
