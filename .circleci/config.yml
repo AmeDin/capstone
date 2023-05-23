@@ -97,11 +97,31 @@ jobs:
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
 
+  deploy-blue:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      # Checkout code from git
+      # Add ssh keys with fingerprint
+      # attach workspace
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["1c:2e:97:d3:17:e3:3c:52:9e:99:be:a2:6d:df:60:3b"]
+      - attach_workspace:
+          at: ~/
+      - install_ansible
+      - run:
+          name: Configure server
+          command: |
+            cd .circleci/ansible
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-blue.yml
+
 workflows:
   default:
     jobs:
       - build
-      # - get-server-ip:
-      #     requires: [build]
-      # - configure-server:
-      #     requires: [get-server-ip]
+      - get-server-ip:
+          requires: [build]
+      - configure-server:
+          requires: [get-server-ip]

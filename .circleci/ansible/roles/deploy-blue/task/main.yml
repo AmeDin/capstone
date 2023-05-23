@@ -1,0 +1,12 @@
+---
+- name: Clone GIT AmeDin Capstone
+  become: yes
+  shell: |
+    git clone https://github.com/AmeDin/capstone.git
+
+- name: Apply blue deployment
+  become: yes
+  shell: |
+    cd capstone/k8s/
+    kubectl apply -f blue.yml
+    nohup kubectl port-forward --address 0.0.0.0 service/blue 30000:8080
