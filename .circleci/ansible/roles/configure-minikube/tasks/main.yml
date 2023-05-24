@@ -29,6 +29,12 @@
   shell: |
     sudo systemctl status docker
 
+- name: Add Docker & ubuntu to usermod
+  become: yes
+  shell: |
+    sudo usermod -aG docker ubuntu
+    sudo usermod -aG docker ${USER}
+
 # - name: Installing conntrack
 #   apt:
 #     name: conntrack
@@ -58,8 +64,6 @@
 - name: Cleaning up Minikube driver using none
   become: yes
   shell: |
-    sudo usermod -aG docker ubuntu
-    sudo usermod -aG docker ${USER}
     echo -e "ubuntu" | su - ubuntu
     groups
     docker ps
