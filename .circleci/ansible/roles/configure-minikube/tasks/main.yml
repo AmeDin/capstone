@@ -34,7 +34,6 @@
     name: docker
     group: sudo
     shell: /bin/bash
-    password: "{{ password }}"
 
 - name: Add a user to run Ubuntu as
   user:
