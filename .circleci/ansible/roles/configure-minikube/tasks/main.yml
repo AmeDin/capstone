@@ -29,20 +29,12 @@
   shell: |
     sudo systemctl status docker
 
-- name: Add a user to run Docker as
-    user:
-      name: docker
-      group: sudo
-      shell: /bin/bash
-      password: "{{ password }}"
-
-name: Add a user to run Ubuntu as
-  user:
+- name: Add user to docker group
+  ansible.builtin.user:
     name: ubuntu
-    group: sudo
-    shell: /bin/bash
-    password: "ubuntu"
-    
+    groups: docker
+    append: true
+
 # - name: Add Docker & ubuntu to usermod
 #   become: yes
 #   shell: |
