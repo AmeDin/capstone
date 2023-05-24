@@ -1,32 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: blue
+  name: bluepod
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: blue
+      app: bluepod
   template:
     metadata:
       labels:
-        app: blue
+        app: bluepod
     spec:
       containers:
         - image: nginxdemos/hello # The image used is nginxdemos/hello.
-          name: blue
+          name: bluepod
           ports:
-            - name: http-server
-              containerPort: 8080
+            - containerPort: 8080
+              protocol: TCP
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: blue
+  name: bluepod
 spec:
   selector:
-    app: blue
+    app: bluepod
   type: NodePort
   ports:
     - protocol: TCP

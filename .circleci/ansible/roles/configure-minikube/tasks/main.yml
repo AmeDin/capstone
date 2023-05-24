@@ -1,18 +1,4 @@
 ---
-- name: install kubectl repository
-  uri:
-    url: https://dl.k8s.io/release/stable.txt
-    return_content: yes
-  register: version
-- name: Download the latest kubectl release
-  uri:
-    url: https://dl.k8s.io/release/{{ version.content }}/bin/linux/amd64/kubectl
-    dest: /home/{{ ansible_user }}
-  register: kubectl
-- name: Check if kubectl is installed
-  shell: kubectl version --client
-  register: client
-  failed_when: client.rc > 1
 - name: Install aptitude
   apt:
     name: aptitude
@@ -43,25 +29,41 @@
   shell: |
     sudo systemctl status docker
 
-- name: Installing conntrack
-  apt:
-    name: conntrack
-    state: present
+# - name: Installing conntrack
+#   apt:
+#     name: conntrack
+#     state: present
 
-# - name: Installing minkube
-#   uri:
-#     url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-#     dest: /home/{{ ansible_user }}
-#   register: minikubelinuxamd64
 - name: Installing minkube
   become: yes
   shell: |
     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
     sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
+- name: install kubectl repository
+  uri:
+    url: https://dl.k8s.io/release/stable.txt
+    return_content: yes
+  register: version
+- name: Download the latest kubectl release
+  uri:
+    url: https://dl.k8s.io/release/{{ version.content }}/bin/linux/amd64/kubectl
+    dest: /home/{{ ansible_user }}
+  register: kubectl
+- name: Check if kubectl is installed
+  shell: kubectl version --client
+  register: client
+  failed_when: client.rc > 1
+
 - name: Cleaning up Minikube driver using none
   become: yes
   shell: |
+    sudo usermod -aG docker ubuntu
+    sudo usermod -aG docker ${USER}
     echo -e "ubuntu" | su - ubuntu
-    sudo usermod -aG docker ubuntu && newgrp docker
-    minikube start --driver=docker --force
+    groups
+    docker ps
+    minikube start
+    # minikube delete --all --purge
+    # sudo apt-get install -y conntrack
+    # minikube start --network-plugin=cni --cni=calico

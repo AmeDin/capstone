@@ -8,5 +8,7 @@
   become: yes
   shell: |
     cd capstone/k8s/
-    kubectl apply -f blue.yml
-    nohup kubectl port-forward --address 0.0.0.0 service/blue 30000:8081
+    # kubectl apply -f blue.yml
+    # nohup kubectl port-forward --address 0.0.0.0 service/blue 30000:8081
+    kubectl run blue --image=nginxdemos/hello --port=80 --labels app=blue
+    nohup kubectl port-forward --address 0.0.0.0 blue 30000:80
