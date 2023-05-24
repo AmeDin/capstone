@@ -60,14 +60,3 @@
   shell: kubectl version --client
   register: client
   failed_when: client.rc > 1
-
-- name: Cleaning up Minikube driver using none
-  become: yes
-  shell: |
-    echo -e "ubuntu" | su - ubuntu
-    groups
-    docker ps
-    minikube start
-    # minikube delete --all --purge
-    # sudo apt-get install -y conntrack
-    # minikube start --network-plugin=cni --cni=calico
