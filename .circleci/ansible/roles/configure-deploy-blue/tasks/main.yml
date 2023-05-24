@@ -12,11 +12,21 @@
     # sudo apt-get install -y conntrack
     # minikube start --network-plugin=cni --cni=calico
 
-- name: Apply blue deployment
+- name: Create blue pod
   become: yes
   shell: |
-    # cd capstone/k8s/
-    # kubectl apply -f blue.yml
-    # nohup kubectl port-forward --address 0.0.0.0 service/blue 30000:8081
     kubectl run blue --image=nginxdemos/hello --port=80 --labels app=blue
+
+- name: Run port-forward blue pod
+  become: yes
+  shell: |
     nohup kubectl port-forward --address 0.0.0.0 blue 30000:80
+
+# - name: Apply blue deployment
+#   become: yes
+#   shell: |
+#     # cd capstone/k8s/
+#     # kubectl apply -f blue.yml
+#     # nohup kubectl port-forward --address 0.0.0.0 service/blue 30000:8081
+#     kubectl run blue --image=nginxdemos/hello --port=80 --labels app=blue
+#     nohup kubectl port-forward --address 0.0.0.0 blue 30000:80
