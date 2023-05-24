@@ -36,13 +36,13 @@
     shell: /bin/bash
     password: "{{ password }}"
 
-name: Add a user to run Ubuntu as
-user:
-  name: ubuntu
-  group: sudo
-  shell: /bin/bash
-  password: "ubuntu"
-    
+- name: Add a user to run Ubuntu as
+  user:
+    name: ubuntu
+    group: sudo
+    shell: /bin/bash
+    password: "ubuntu"
+
 # - name: Add Docker & ubuntu to usermod
 #   become: yes
 #   shell: |
