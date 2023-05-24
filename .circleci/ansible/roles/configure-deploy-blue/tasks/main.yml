@@ -1,15 +1,12 @@
 ---
-- name: Clone GIT AmeDin Capstone
-  become: yes
-  shell: |
-    git clone https://github.com/AmeDin/capstone.git
+# - name: Clone GIT AmeDin Capstone
+#   become: yes
+#   shell: |
+#     git clone https://github.com/AmeDin/capstone.git
 
 - name: Start minikube
   become: yes
   shell: |
-    echo -e "ubuntu" | su - ubuntu
-    groups
-    docker ps
     minikube start
     # minikube delete --all --purge
     # sudo apt-get install -y conntrack
@@ -18,7 +15,7 @@
 - name: Apply blue deployment
   become: yes
   shell: |
-    cd capstone/k8s/
+    # cd capstone/k8s/
     # kubectl apply -f blue.yml
     # nohup kubectl port-forward --address 0.0.0.0 service/blue 30000:8081
     kubectl run blue --image=nginxdemos/hello --port=80 --labels app=blue

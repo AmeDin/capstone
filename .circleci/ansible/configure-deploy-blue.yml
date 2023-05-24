@@ -25,4 +25,4 @@
 
   roles:
     # Your code here
-    - deploy-blue
+    - configure-deploy-blue
