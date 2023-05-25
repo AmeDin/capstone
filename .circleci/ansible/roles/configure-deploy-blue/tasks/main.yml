@@ -16,6 +16,7 @@
   become: yes
   shell: |
     kubectl run blue --image=nginxdemos/hello --port=80 --labels app=blue
+    while [[ $(kubectl get pods blue -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 1; done
 
 - name: Run port-forward blue pod
   become: yes
