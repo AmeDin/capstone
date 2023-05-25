@@ -25,7 +25,7 @@
 - name: Run port-forward blue pod
   become: yes
   shell: |
-    nohup kubectl port-forward --address 0.0.0.0 blue 30000:80
+    nohup kubectl port-forward --address 0.0.0.0 blue 30000:80 > nohup.out 2>&1 &
 
 # - name: Apply blue deployment
 #   become: yes
