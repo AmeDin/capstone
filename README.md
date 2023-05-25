@@ -64,7 +64,7 @@ To allow simulation of blue green deployment. buffer-time allow us to capture th
 
 ### Green App
 
-Finally deploy-green will deploy our build application which was the docker image we push holding our index.html. It will switch the port forwarding into this pod abd access again http://<Public IP>:30000 will be our green application.
+Finally deploy-green will deploy our build application which was the docker image we push holding our index.html. It will switch the port forwarding into this pod abd access again http://<Public IP>:30000 will be our green application. The title and the footer if the application is changed
 
 We can also add commands to remove the blue pods to delete the all app.
 
