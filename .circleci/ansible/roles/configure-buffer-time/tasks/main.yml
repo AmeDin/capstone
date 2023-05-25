@@ -1,0 +1,4 @@
+---
+- name: Wait for Green Deployment
+  wait_for:
+    timeout: 90

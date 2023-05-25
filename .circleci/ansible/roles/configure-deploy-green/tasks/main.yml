@@ -4,29 +4,16 @@
 #   shell: |
 #     git clone https://github.com/AmeDin/capstone.git
 
-- name: Start minikube
+- name: Create green pod
   become: yes
   shell: |
-    minikube start
-    # minikube delete --all --purge
-    # sudo apt-get install -y conntrack
-    # minikube start --network-plugin=cni --cni=calico
-
-- name: Create blue pod
-  become: yes
-  shell: |
-    if kubectl get pods blue | grep blue 
-    then
-        echo "blue is running"
-    else
-        kubectl run blue --image=nginxdemos/hello --port=80 --labels app=blue
-    fi
+    kubectl run green --image=amedin/green:v2.0.0 --port=80 --labels app=green
 
 - name: Wait for kubectl pods to be read
   wait_for:
     timeout: 15
 
-- name: Run port-forward blue pod
+- name: Swtich Blue port-forward to Green pod
   become: yes
   shell: |
     if kubectl get pods blue | grep running 
@@ -34,8 +21,10 @@
         if lsof -i :30000 | grep kubectl 
         then
             echo "blue is port forwarding"
+            kill $(lsof -t -i:30000)
+            nohup kubectl port-forward --address 0.0.0.0 green 30000:80 > nohup.out 2>&1 &
         else
-            nohup kubectl port-forward --address 0.0.0.0 blue 30000:80 > nohup.out 2>&1 &
+            echo "none"
         fi
     else
         echo "no blue pods running"

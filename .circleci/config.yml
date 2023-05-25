@@ -111,11 +111,51 @@ jobs:
           at: ~/
       - install_ansible
       - run:
-          name: Configure server
+          name: Blue Deployment
           command: |
             cd .circleci/ansible
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-deploy-blue.yml
+
+  buffer-time:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      # Checkout code from git
+      # Add ssh keys with fingerprint
+      # attach workspace
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["1c:2e:97:d3:17:e3:3c:52:9e:99:be:a2:6d:df:60:3b"]
+      - attach_workspace:
+          at: ~/
+      - install_ansible
+      - run:
+          name: Buffer time to simulate green
+          command: |
+            cd .circleci/ansible
+            cat inventory.txt
+            ansible-playbook -i inventory.txt configure-buffer-time.yml
+
+  deploy-green:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      # Checkout code from git
+      # Add ssh keys with fingerprint
+      # attach workspace
+      - checkout
+      - add_ssh_keys:
+          fingerprints: ["1c:2e:97:d3:17:e3:3c:52:9e:99:be:a2:6d:df:60:3b"]
+      - attach_workspace:
+          at: ~/
+      - install_ansible
+      - run:
+          name: Green Deployment
+          command: |
+            cd .circleci/ansible
+            cat inventory.txt
+            ansible-playbook -i inventory.txt configure-deploy-green.yml
 
 workflows:
   default:
@@ -127,3 +167,7 @@ workflows:
           requires: [get-server-ip]
       - deploy-blue:
           requires: [configure-server]
+      - buffer-time:
+          requires: [deploy-blue]
+      - deploy-green:
+          requires: [buffer-time]
