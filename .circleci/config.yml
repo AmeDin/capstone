@@ -40,7 +40,6 @@ jobs:
       - run:
           name: build & push docker
           command: |
-            TAG=0.1.$CIRCLE_BUILD_NUM
             docker build --tag=green .
             dockerpath="amedin/green:v2.0.0"
             echo "Docker ID and Image: $dockerpath"

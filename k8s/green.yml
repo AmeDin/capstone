@@ -1,35 +1,35 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: green
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: green
-  template:
-    metadata:
-      labels:
-        app: green
-    spec:
-      containers:
-        - image: amedin/green:v1.0.0 # The image used is amedin/green
-          name: green
-          ports:
-            - name: http-server
-              containerPort: 8080
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: green
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: green
+#   template:
+#     metadata:
+#       labels:
+#         app: green
+#     spec:
+#       containers:
+#         - image: amedin/green:v1.0.0 # The image used is amedin/green
+#           name: green
+#           ports:
+#             - name: http-server
+#               containerPort: 80
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: green
-spec:
-  selector:
-    app: green
-  type: NodePort
-  ports:
-    - protocol: TCP
-      targetPort: 8080
-      port: 8081
-      nodePort: 30000
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: green
+# spec:
+#   selector:
+#     app: green
+#   type: NodePort
+#   ports:
+#     - protocol: TCP
+#       targetPort: 80
+#       port: 80
+#       nodePort: 30000
